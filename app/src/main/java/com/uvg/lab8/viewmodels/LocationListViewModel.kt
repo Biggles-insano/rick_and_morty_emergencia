@@ -25,7 +25,7 @@ class LocationListViewModel : ViewModel() {
 
     private fun fetchLocations() {
         viewModelScope.launch {
-            delay(4000) // Simulación de espera de 4 segundos
+            delay(4000)
             _uiState.value = LocationListState(
                 isLoading = false,
                 data = LocationDb().getAllLocations()
