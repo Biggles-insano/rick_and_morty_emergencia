@@ -20,13 +20,13 @@ fun LoginScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.rick_morty_logo),
+            painter = painterResource(id = R.drawable.rick_morty_logo), 
             contentDescription = "Rick and Morty Logo"
         )
         Button(
             onClick = {
                 navController.navigate("character_list") {
-                    popUpTo("login") { inclusive = true } 
+                    popUpTo("login") { inclusive = true }  
                 }
             },
             modifier = Modifier.padding(top = 16.dp)
@@ -35,7 +35,7 @@ fun LoginScreen(navController: NavController) {
         }
 
         Text(
-            text = "Samuel Mejía - #23442",
+            text = "Samuel Mejía - #23442",  
             modifier = Modifier.padding(top = 32.dp)
         )
     }
