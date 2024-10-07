@@ -25,7 +25,7 @@ class CharacterListViewModel : ViewModel() {
 
     private fun fetchCharacters() {
         viewModelScope.launch {
-            delay(4000) // Simulación de espera de 4 segundos
+            delay(4000)
             _uiState.value = CharacterListState(
                 isLoading = false,
                 data = CharacterDb().getAllCharacters()
