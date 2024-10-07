@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.uvg.lab8.viewmodels.LocationListViewModel
 import com.uvg.lab8.model.Location
+import androidx.compose.ui.Alignment
 
 @Composable
 fun LocationsScreen(navController: NavController, viewModel: LocationListViewModel = viewModel()) {
@@ -24,10 +25,12 @@ fun LocationsScreen(navController: NavController, viewModel: LocationListViewMod
     ) { paddingValues ->
         when {
             uiState.isLoading -> {
-                LoadingLayout { viewModel.simulateError() }
+           
+                LocationLoadingLayout { viewModel.simulateError() }
             }
             uiState.hasError -> {
-                ErrorLayout { viewModel.retry() }
+              
+                LocationErrorLayout { viewModel.retry() }
             }
             else -> {
                 LazyColumn(
@@ -47,6 +50,7 @@ fun LocationsScreen(navController: NavController, viewModel: LocationListViewMod
     }
 }
 
+
 @Composable
 fun LocationRow(location: Location, onClick: () -> Unit) {
     Row(
@@ -59,6 +63,40 @@ fun LocationRow(location: Location, onClick: () -> Unit) {
             Text(text = location.name, style = MaterialTheme.typography.h6)
             Text(text = "Type: ${location.type}", style = MaterialTheme.typography.body2)
             Text(text = "Dimension: ${location.dimension}", style = MaterialTheme.typography.body2)
+        }
+    }
+}
+
+
+@Composable
+fun LocationLoadingLayout(onClick: () -> Unit) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable { onClick() } 
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            CircularProgressIndicator()
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("Loading location list...")
+        }
+    }
+}
+
+
+@Composable
+fun LocationErrorLayout(onRetry: () -> Unit) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("Error loading location list")
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = onRetry) {
+                Text("Retry")
+            }
         }
     }
 }
