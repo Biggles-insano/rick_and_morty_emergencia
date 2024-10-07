@@ -21,7 +21,7 @@ class LocationDetailViewModel : ViewModel() {
 
     fun fetchLocationById(locationId: Int) {
         viewModelScope.launch {
-            delay(2000) // Simulación de espera de 2 segundos
+            delay(2000)
             val location = LocationDb().getLocationById(locationId)
             _uiState.value = LocationDetailState(isLoading = false, data = location)
         }
