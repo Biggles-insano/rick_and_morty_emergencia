@@ -21,7 +21,7 @@ class CharacterDetailViewModel : ViewModel() {
 
     fun fetchCharacterById(characterId: Int) {
         viewModelScope.launch {
-            delay(2000) // Simulación de espera de 2 segundos
+            delay(2000)
             val character = CharacterDb().getCharacterById(characterId)
             _uiState.value = CharacterDetailState(isLoading = false, data = character)
         }
