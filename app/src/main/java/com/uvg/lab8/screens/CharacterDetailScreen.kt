@@ -3,16 +3,19 @@ package com.uvg.lab8.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.uvg.lab8.viewmodels.CharacterDetailViewModel
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.clickable
 
 @Composable
-fun CharacterDetailScreen(navController: NavController, characterId: Int, viewModel: CharacterDetailViewModel = viewModel()) {
+fun CharacterDetailScreen(
+    navController: NavController,
+    characterId: Int,
+    viewModel: CharacterDetailViewModel
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -31,7 +34,7 @@ fun CharacterDetailScreen(navController: NavController, characterId: Int, viewMo
     ) { paddingValues ->
         when {
             uiState.isLoading -> {
-                LoadingLayout { viewModel.simulateError() }
+                LoadingLayout { viewModel.retry(characterId) }
             }
             uiState.hasError -> {
                 ErrorLayout { viewModel.retry(characterId) }

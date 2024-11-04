@@ -1,11 +1,13 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+    id("kotlin-kapt")
 }
 
 android {
     namespace = "com.uvg.lab8"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.uvg.lab8"
@@ -47,6 +49,12 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    kapt {
+        arguments{
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
+    }
+
 }
 
 dependencies {
@@ -67,15 +75,30 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.androidx.navigation.compose)
     implementation(libs.coil.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.ui)
     implementation(libs.androidx.material)
     implementation(libs.ui.tooling.preview)
-    implementation(libs.androidx.navigation.compose)
 
 
     debugImplementation(libs.ui.tooling)
+
+    implementation(libs.androidx.datastore)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
+    implementation(libs.bundles.ktor)
+
+    implementation("androidx.navigation:navigation-compose:2.8.3")
+
+    implementation("androidx.navigation:navigation-runtime-ktx:2.5.3")
+
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
 }

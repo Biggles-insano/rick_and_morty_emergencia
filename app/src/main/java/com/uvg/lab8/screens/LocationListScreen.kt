@@ -6,31 +6,26 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.uvg.lab8.viewmodels.LocationListViewModel
-import com.uvg.lab8.model.Location
+import com.uvg.lab8.entities.LocationEntity
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
-fun LocationsScreen(navController: NavController, viewModel: LocationListViewModel = viewModel()) {
+fun LocationListScreen(navController: NavController, viewModel: LocationListViewModel) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Locations") })
-        }
+        topBar = { TopAppBar(title = { Text("Locations") }) }
     ) { paddingValues ->
         when {
             uiState.isLoading -> {
-           
-                LocationLoadingLayout { viewModel.simulateError() }
+                LoadingLayout { viewModel.retry() }
             }
             uiState.hasError -> {
-              
-                LocationErrorLayout { viewModel.retry() }
+                ErrorLayout { viewModel.retry() }
             }
             else -> {
                 LazyColumn(
@@ -50,9 +45,8 @@ fun LocationsScreen(navController: NavController, viewModel: LocationListViewMod
     }
 }
 
-
 @Composable
-fun LocationRow(location: Location, onClick: () -> Unit) {
+fun LocationRow(location: LocationEntity, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,42 +55,7 @@ fun LocationRow(location: Location, onClick: () -> Unit) {
     ) {
         Column {
             Text(text = location.name, style = MaterialTheme.typography.h6)
-            Text(text = "Type: ${location.type}", style = MaterialTheme.typography.body2)
-            Text(text = "Dimension: ${location.dimension}", style = MaterialTheme.typography.body2)
-        }
-    }
-}
-
-
-@Composable
-fun LocationLoadingLayout(onClick: () -> Unit) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .clickable { onClick() } 
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            CircularProgressIndicator()
-            Spacer(modifier = Modifier.height(16.dp))
-            Text("Loading location list...")
-        }
-    }
-}
-
-
-@Composable
-fun LocationErrorLayout(onRetry: () -> Unit) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("Error loading location list")
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = onRetry) {
-                Text("Retry")
-            }
+            Text(text = "${location.type} - ${location.dimension}", style = MaterialTheme.typography.body2)
         }
     }
 }

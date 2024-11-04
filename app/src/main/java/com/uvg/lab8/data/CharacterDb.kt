@@ -1,7 +1,5 @@
 package com.uvg.lab8.data
 import com.uvg.lab8.model.Character
-
-
 class CharacterDb {
     private val characters: List<Character> = listOf(
         Character(1, "Rick Sanchez", "Alive", "Human", "Male", "https://rickandmortyapi.com/api/character/avatar/1.jpeg"),

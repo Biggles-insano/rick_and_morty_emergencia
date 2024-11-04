@@ -3,16 +3,19 @@ package com.uvg.lab8.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.uvg.lab8.viewmodels.LocationDetailViewModel
-import androidx.compose.foundation.clickable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.clickable
 
 @Composable
-fun LocationDetailScreen(navController: NavController, locationId: Int, viewModel: LocationDetailViewModel = viewModel()) {
+fun LocationDetailScreen(
+    navController: NavController,
+    locationId: Int,
+    viewModel: LocationDetailViewModel
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -31,10 +34,10 @@ fun LocationDetailScreen(navController: NavController, locationId: Int, viewMode
     ) { paddingValues ->
         when {
             uiState.isLoading -> {
-                LoadingLayout { viewModel.simulateError() }
+                LoadingLayout { viewModel.fetchLocationById(locationId) }
             }
             uiState.hasError -> {
-                ErrorLayout { viewModel.retry(locationId) }
+                ErrorLayout { viewModel.fetchLocationById(locationId) }
             }
             else -> {
                 uiState.data?.let { location ->
